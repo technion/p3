@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 module.exports = {
   context: __dirname,
@@ -10,21 +10,21 @@ module.exports = {
   },
   output: {
     filename: "p3.js",
-    path: __dirname + "/build",
+    path: __dirname + "/build"
   },
   module: {
     rules: [
-	    {
+      {
         test: /\.tsx$/,
         exclude: /node_modules/,
-        use: ["ts-loader"],
+        use: ["ts-loader"]
       },
       {
-        test:   /\.js$/,
+        test: /\.js$/,
         use: ["source-map-loader"],
         enforce: "pre"
-      },
-    ],
-  },
-}
+      }
+    ]
+  }
+};
 console.log("webpack running:");

@@ -1,43 +1,38 @@
 import * as React from "react";
-import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
-import { withStyles, createStyles, WithStyles, Theme } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import FormControl from "@material-ui/core/FormControl";
+import Paper from "@material-ui/core/es/Paper";
 
-export const P3HW = () => (<div>Hello World</div>);
+export const P3HW = () => <div>Hello World</div>;
 
-const styles = (theme: Theme) => createStyles({
-  root: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
-    width: "50%",
-    margin: "auto",
-  },
-});
-
-export const P3Form = withStyles(styles)(
-class extends React.Component<WithStyles<typeof styles>> {
+export class P3Form extends React.Component {
   public render() {
-    const { classes } = this.props;
+    const styles = {
+      paddingTop: 16,
+      paddingBottom: 16,
+      paddingLeft: 32,
+      paddingRight: 32,
+      width: "50%",
+      margin: "auto"
+    };
     return (
-    <Paper className={classes.root}>
-     <TextField
-          id="username"
-          label="User Name"
-          margin="normal"
-        /> <br />
-       <TextField
-          id="oldpassword"
-          label="Old Password"
-          margin="normal"
-        /> <br />
-       <TextField
-          id="newpassword"
-          label="New Password"
-          margin="normal"
-        /> <br />
+      <Paper style={styles}>
+        <FormControl>
+          <InputLabel htmlFor="username">User Name</InputLabel>
+          <Input id="username" />
+        </FormControl>
+        <br />
+        <FormControl>
+          <InputLabel htmlFor="oldpassword">Old Password</InputLabel>
+          <Input id="oldpassword" />
+        </FormControl>
+        <br />
+        <FormControl>
+          <InputLabel htmlFor="newpassword">New Password</InputLabel>
+          <Input id="newpassword" />
+        </FormControl>
       </Paper>
     );
   }
-});
+}
