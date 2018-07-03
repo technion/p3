@@ -4,6 +4,7 @@
 %%%-------------------------------------------------------------------
 
 -module(p3_app).
+% Boilerplate route setup.
 
 -behaviour(application).
 
@@ -15,6 +16,15 @@
 %%====================================================================
 
 start(_StartType, _StartArgs) ->
+    Dispatch = cowboy_router:compile([
+        {'_', [
+            {"/api", p3_api_handler, []}
+        ]}
+    ]),
+    {ok, _Pid} = cowboy:start_clear(http,
+            [{ip, {127, 0, 0, 1}}, {port, 8084}],
+            #{ env => #{dispatch => Dispatch}}
+    ),
     p3_sup:start_link().
 
 %%--------------------------------------------------------------------

@@ -1,14 +1,14 @@
 import * as React from "react";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/es/InputLabel";
+import Input from "@material-ui/core/es/Input";
+import FormControl from "@material-ui/core/es/FormControl";
 import Paper from "@material-ui/core/es/Paper";
 
 export const P3HW = () => <div>Hello World</div>;
 
 export class P3Form extends React.Component {
   public render() {
-    const styles = {
+    const pstyles = {
       paddingTop: 16,
       paddingBottom: 16,
       paddingLeft: 32,
@@ -17,7 +17,7 @@ export class P3Form extends React.Component {
       margin: "auto"
     };
     return (
-      <Paper style={styles}>
+      <Paper style={pstyles}>
         <FormControl>
           <InputLabel htmlFor="username">User Name</InputLabel>
           <Input id="username" />
