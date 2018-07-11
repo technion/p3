@@ -17,3 +17,4 @@ _build
 *.iml
 rebar3.crashdump
 frontend/node_modules
+frontend/build/p3.js

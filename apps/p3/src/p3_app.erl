@@ -25,10 +25,12 @@ start(_StartType, _StartArgs) ->
             [{ip, {127, 0, 0, 1}}, {port, 8084}],
             #{ env => #{dispatch => Dispatch}}
     ),
+    ratelimit:create_table(),
     p3_sup:start_link().
 
 %%--------------------------------------------------------------------
 stop(_State) ->
+    ratelimit:delete_table(),
     ok.
 
 %%====================================================================

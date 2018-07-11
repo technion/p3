@@ -19,7 +19,6 @@ export class P3Popup extends React.Component<PopupData> {
 
   public render() {
     const { statuscode, message } = this.props;
-
     let dialog: string;
     if (statuscode === "success") {
       dialog = "Password has been successfully reset";

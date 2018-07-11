@@ -49,13 +49,14 @@ export class P3Form extends React.Component<{}, PopupData> {
       method: "POST"
     })
       .then(response => {
-        if (!response.ok) {
-          this.setState({
-            statuscode: "servererror",
-            message: response.statusText
-          });
-          throw new Error("Network response returned " + response.status);
+        return Promise.all([response.text(), response.ok, response.status]);
+      })
+      .then(([body, ok, status]) => {
+        if(!ok) {
+          console.log(`Server returned status ${status}`);
+          throw new Error(body);
         }
+          this.setState({ statuscode: "success", message: body });
       })
       .catch(err => {
         this.setState({ statuscode: "servererror", message: err.message });
@@ -77,7 +78,7 @@ export class P3Form extends React.Component<{}, PopupData> {
     };
 
     const popup = (
-      <P3Popup statuscode={"servererror"} message={this.state.message} />
+      <P3Popup statuscode={this.state.statuscode} message={this.state.message} />
     );
 
     return (

@@ -30,6 +30,8 @@ changepassword(Req, Username, OldPassword, NewPassword) ->
         % Check for blacklisted characters
         LUsername = binary_to_list(Username),
         ok = validate:valid_name(LUsername),
+        %Check rate limiting
+        ok = ratelimit:ratelimit_name(LUsername),
         % Logon to LDAP - credential check
         Handle = p3user:check_bind(LUsername, OldPassword),
         DN = p3user:user_safe(Handle, LUsername),
@@ -49,8 +51,10 @@ changepassword(Req, Username, OldPassword, NewPassword) ->
         cowboy_req:reply(403, #{}, <<"Invalid Credentials">>, Req);
     throw:constraintViolation ->
         cowboy_req:reply(403, #{}, <<"AD Denied Password Change">>, Req);
+    throw:banned ->
+        cowboy_req:reply(403, #{}, <<"Username has been locked out">>, Req);
     throw:connection_failed ->
-        cowboy_req:reply(403, #{}, <<"Server Unavailable">>, Req);
+        cowboy_req:reply(500, #{}, <<"Server Unavailable">>, Req);
     Error:Reason ->
         io:fwrite("Debug log: ~p~n", [{Error, Reason}]),
         cowboy_req:reply(401, #{}, <<"Account Error">>, Req)
