@@ -1,4 +1,5 @@
 -module(p3_api_handler).
+-behaviour(cowboy_handler).
 
 -export([init/2]).
 

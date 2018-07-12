@@ -35,7 +35,7 @@ export class P3Form extends React.Component<{}, PopupData> {
       formdata[ele] = e.target[ele].value.trim();
     }
     try {
-      validcheck(formdata);
+      validcheck(formdata, e.target.confirmpassword.value.trim());
     } catch (err) {
       this.setState({ statuscode: "invalid", message: err.message });
       return;
@@ -87,7 +87,7 @@ export class P3Form extends React.Component<{}, PopupData> {
           {this.state.statuscode !== "unset" && popup}
           <FormControl>
             <InputLabel htmlFor="username">User Name</InputLabel>
-            <Input id="username" />
+            <Input id="username" type="email" />
           </FormControl>
           <br />
           <FormControl>
@@ -98,6 +98,11 @@ export class P3Form extends React.Component<{}, PopupData> {
           <FormControl>
             <InputLabel htmlFor="newpassword">New Password</InputLabel>
             <Input id="newpassword" type="password" />
+          </FormControl>
+          <br />
+          <FormControl>
+            <InputLabel htmlFor="confirmpassword">Confirm Password</InputLabel>
+            <Input id="confirmpassword" type="password" />
           </FormControl>
           <br />
           <Button

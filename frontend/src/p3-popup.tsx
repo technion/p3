@@ -37,7 +37,8 @@ export class P3Popup extends React.Component<PopupData> {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          { "Error"}
+          { (statuscode === "success") ?
+            "Success" : "Error"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

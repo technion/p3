@@ -28,10 +28,11 @@ now_secs() ->
 %% @doc Expires old content
 -spec cache_flush() -> ok.
 cache_flush() ->
-    Now = now_secs(),
-    Selector = ets:fun2ms(fun({K, Expiry, _Res})
-            when Expiry < Now -> true end),
-    ets:select_delete(simple_cache, Selector),
+    % TODO
+%    Now = now_secs(),
+%    Selector = ets:fun2ms(fun({K, Expiry, _Res})
+%            when Expiry < Now -> true end),
+%    ets:select_delete(simple_cache, Selector),
     ok.
 
 -spec ratelimit_name(string()) -> ok.
@@ -39,7 +40,7 @@ ratelimit_name(User) ->
     Now = now_secs(),
     case ets:lookup(simple_cache, User) of
     [] ->  %Not present in cache
-        %cache_flush(), %Flushing on add ensures size is managed
+        cache_flush(), %Flushing on add ensures size is managed
         ets:insert(simple_cache, {User, Now+?LIFETIME, 1}),
         ok;
     [{User, Expiry, Hits}] when Now < Expiry andalso Hits > 4 ->

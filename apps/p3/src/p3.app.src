@@ -6,6 +6,8 @@
   {applications,
    [kernel,
     stdlib,
+    jiffy,
+    eldap,
     cowboy
    ]},
   {env,[]},
