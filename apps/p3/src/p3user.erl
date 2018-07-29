@@ -4,7 +4,7 @@
 
 -define(BASE, {base, "DC=ad,DC=lolware,DC=net"}).
 
-% Function authenticates a username/password combo by binding 
+% Function authenticates a username/password combo by binding
 % to LDAP server. Will return an open handle for further LDAP communication
 -spec(check_bind(string(), binary()) -> eldap:handle()).
 check_bind(Username, Password) ->
@@ -14,7 +14,7 @@ check_bind(Username, Password) ->
             [{port, 1636}, {ssl, true}, {timeout, 500}]) of
     {ok, H} ->
         H;
-    {error,"connect failed"} ->
+    {error, "connect failed"} ->
         throw(connection_failed)
     end,
     case eldap:simple_bind(Handle, Username, Password) of
@@ -32,7 +32,7 @@ check_bind(Username, Password) ->
 % Returns the DN
 -spec(user_safe(eldap:handle(), string()) -> string()).
 user_safe(Handle, Username) ->
-    {ok, Result } = eldap:search(Handle, [?BASE, {attributes, 
+    {ok, Result } = eldap:search(Handle, [?BASE, {attributes,
         ["distinguishedname", "isCriticalSystemObject", "objectClass"]},
         {filter, eldap:equalityMatch("userprincipalname",
         Username)} ]),

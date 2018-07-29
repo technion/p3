@@ -2,7 +2,7 @@
 -export([valid_name/1]).
 
 % Valid list: https://support.office.com/en-us/article/prepare-to-provision-users-through-directory-synchronization-to-office-365-01920974-9e6f-4331-a370-13aea4e82b3e
- 
+
 -spec(valid_name(string()) -> ok).
 valid_name(Name) ->
     case length(Name) < 64  andalso
