@@ -7,24 +7,30 @@ import Button from "@material-ui/core/es/Button";
 
 import { P3Popup, PopupData } from "./p3-popup";
 import { validcheck } from "./validcheck";
+import { CForm } from "./captcha";
 
 interface Formstate {
-  httpcode: number;
-  message: string;
+  showcaptcha: boolean;
 }
 
 interface Objectarray {
   [key: string]: string;
 }
 
-export class P3Form extends React.Component<{}, PopupData> {
+export class P3Form extends React.Component<{}, PopupData & Formstate> {
   constructor(props: {}) {
     super(props);
     this.submitPassword = this.submitPassword.bind(this);
+    this.showCaptcha = this.showCaptcha.bind(this);
     this.state = {
       statuscode: "unset",
-      message: "Undefined"
+      message: "Undefined",
+      showcaptcha: false
     };
+  }
+
+  public showCaptcha() {
+    this.setState( {showcaptcha: true})
   }
 
   public submitPassword(e: any) {
@@ -48,17 +54,16 @@ export class P3Form extends React.Component<{}, PopupData> {
       }),
       method: "POST"
     })
-      .then(response => {
-        return Promise.all([response.text(), response.ok, response.status]);
+      .then((response) => {
+        return Promise.all([response.text(), response.ok]);
       })
-      .then(([body, ok, status]) => {
-        if(!ok) {
-          console.log(`Server returned status ${status}`);
+      .then(([body, ok]) => {
+        if (!ok) {
           throw new Error(body);
         }
           this.setState({ statuscode: "success", message: body });
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({ statuscode: "servererror", message: err.message });
         console.error(err.message);
       });
@@ -78,7 +83,10 @@ export class P3Form extends React.Component<{}, PopupData> {
     };
 
     const popup = (
-      <P3Popup statuscode={this.state.statuscode} message={this.state.message} />
+      <P3Popup
+        statuscode={this.state.statuscode}
+        message={this.state.message}
+      />
     );
 
     return (
@@ -96,8 +104,8 @@ export class P3Form extends React.Component<{}, PopupData> {
           </FormControl>
           <br />
           <FormControl>
-            <InputLabel htmlFor="newpassword">New Password</InputLabel>
-            <Input id="newpassword" type="password" />
+            <InputLabel htmlFor="newpassword" >New Password</InputLabel>
+            <Input id="newpassword" type="password" onClick={this.showCaptcha} />
           </FormControl>
           <br />
           <FormControl>
@@ -113,6 +121,9 @@ export class P3Form extends React.Component<{}, PopupData> {
           >
             Change Password
           </Button>
+          { this.state.showcaptcha &&
+            <CForm />
+          }
         </form>
       </Paper>
     );

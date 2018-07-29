@@ -14,6 +14,7 @@ class App extends React.Component<{}, {}> {
           P3 AD Password Reset Utility
         </Typography>
         <P3Form />
+        <div id="g-recaptcha"></div>
       </React.Fragment>
     );
   }

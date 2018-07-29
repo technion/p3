@@ -4,7 +4,7 @@ export const validcheck = (formdata: any, confirmpassword: string) => {
       throw new Error(`Empty value provided for ${element}`);
     }
   }
-  if(formdata.newpassword !== confirmpassword) {
+  if (formdata.newpassword !== confirmpassword) {
     throw new Error("Password and confirmation password do not match");
   }
 };
