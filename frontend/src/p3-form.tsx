@@ -11,6 +11,8 @@ import { CForm } from "./captcha";
 
 interface Formstate {
   showcaptcha: boolean;
+  submitdisabled: boolean;
+  captchaKey: string;
 }
 
 interface Objectarray {
@@ -22,16 +24,27 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
     super(props);
     this.submitPassword = this.submitPassword.bind(this);
     this.showCaptcha = this.showCaptcha.bind(this);
+    this.showSubmit = this.showSubmit.bind(this);
     this.state = {
       statuscode: "unset",
       message: "Undefined",
-      showcaptcha: false
+      showcaptcha: false,
+      submitdisabled: true,
+      captchaKey: ""
     };
   }
 
   public showCaptcha() {
     this.setState( {showcaptcha: true})
   }
+
+  public showSubmit(key: string) {
+    this.setState( {
+      submitdisabled: false,
+      captchaKey: key
+    })
+  }
+
 
   public submitPassword(e: any) {
     e.preventDefault();
@@ -105,7 +118,7 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
           <br />
           <FormControl>
             <InputLabel htmlFor="newpassword" >New Password</InputLabel>
-            <Input id="newpassword" type="password" onClick={this.showCaptcha} />
+            <Input id="newpassword" type="password" onFocus={this.showCaptcha} />
           </FormControl>
           <br />
           <FormControl>
@@ -118,11 +131,12 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
             color="secondary"
             style={buttonstyles}
             type="submit"
+            disabled={this.state.submitdisabled}
           >
             Change Password
           </Button>
           { this.state.showcaptcha &&
-            <CForm />
+            <CForm onVerify={this.showSubmit} />
           }
         </form>
       </Paper>
