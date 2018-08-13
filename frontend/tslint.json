@@ -6,6 +6,7 @@
         "ordered-imports": [false],
         "interface-name": [true, "never-prefix"],
         "object-literal-sort-keys": [false],
+        "trailing-comma": [false],
         "max-line-length": [false]
       }
 }
