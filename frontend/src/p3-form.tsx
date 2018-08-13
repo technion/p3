@@ -35,16 +35,17 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
   }
 
   public showCaptcha() {
-    this.setState( {showcaptcha: true})
+    this.setState({
+      showcaptcha: true
+    });
   }
 
   public showSubmit(key: string) {
-    this.setState( {
+    this.setState({
       submitdisabled: false,
       captchaKey: key
-    })
+    });
   }
-
 
   public submitPassword(e: any) {
     e.preventDefault();
@@ -74,7 +75,7 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
         if (!ok) {
           throw new Error(body);
         }
-          this.setState({ statuscode: "success", message: body });
+        this.setState({ statuscode: "success", message: body });
       })
       .catch((err) => {
         this.setState({ statuscode: "servererror", message: err.message });
@@ -84,10 +85,10 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
 
   public render() {
     const pstyles = {
-      paddingTop: 16,
-      paddingBottom: 16,
-      paddingLeft: 32,
-      paddingRight: 32,
+      paddingTop: "16px",
+      paddingBottom: "16px",
+      paddingLeft: "32px",
+      paddingRight: "32px",
       width: "50%",
       margin: "auto"
     };
@@ -117,8 +118,12 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
           </FormControl>
           <br />
           <FormControl>
-            <InputLabel htmlFor="newpassword" >New Password</InputLabel>
-            <Input id="newpassword" type="password" onFocus={this.showCaptcha} />
+            <InputLabel htmlFor="newpassword">New Password</InputLabel>
+            <Input
+              id="newpassword"
+              type="password"
+              onFocus={this.showCaptcha}
+            />
           </FormControl>
           <br />
           <FormControl>
@@ -135,9 +140,7 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
           >
             Change Password
           </Button>
-          { this.state.showcaptcha &&
-            <CForm onVerify={this.showSubmit} />
-          }
+          {this.state.showcaptcha && <CForm onVerify={this.showSubmit} />}
         </form>
       </Paper>
     );

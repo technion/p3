@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom"; // Aliased to react-dom-lite
 import CssBaseline from "@material-ui/core/es/CssBaseline";
 import Typography from "@material-ui/core/es/Typography";
 

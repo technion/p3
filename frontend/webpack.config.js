@@ -6,7 +6,9 @@ module.exports = {
   entry: "./src/p3-entry.tsx",
   devtool: "inline-source-map",
   resolve: {
-    extensions: [".tsx", ".js", ".d.ts"]
+    extensions: [".tsx", ".js", ".d.ts"],
+    alias: { "react-dom": "react-dom-lite" },
+
   },
   output: {
     filename: "p3.js",

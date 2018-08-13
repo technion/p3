@@ -1,4 +1,5 @@
 const webpack = require("webpack");
+var BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
 module.exports = {
   context: __dirname,
@@ -6,7 +7,13 @@ module.exports = {
   entry: "./src/p3-entry.tsx",
   resolve: {
     extensions: [".tsx", ".js", ".d.ts"],
+    alias: { "react-dom": "react-dom-lite" },
   },
+  plugins: [ new BundleAnalyzerPlugin({
+    analyzerMode: "static",
+    reportFilename: "report.html",
+    })
+  ],
   output: {
     filename: "p3.js",
     path: __dirname + "/build",
