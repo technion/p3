@@ -20,19 +20,23 @@ processbody(PostBody, Req0) ->
     case jiffy:decode(PostBody, [return_maps]) of
     #{<<"oldpassword">> := OldPassword,
       <<"newpassword">> := NewPassword,
-      <<"username">> := Username} ->
-        changepassword(Req0, Username, OldPassword, NewPassword);
+      <<"username">> := Username,
+      <<"captcha">> := Captcha} ->
+        changepassword(Req0, Username, OldPassword, NewPassword, Captcha);
     _ ->
         cowboy_req:reply(403, #{}, <<"Invalid or missing parameter">>, Req0)
     end.
 
-changepassword(Req, Username, OldPassword, NewPassword) ->
+changepassword(Req, Username, OldPassword, NewPassword, Captcha) ->
+    IP = cowboy_req:header(<<"x-forwarded-for">>, Req),
     try
         % Check for blacklisted characters
         LUsername = binary_to_list(Username),
         ok = validate:valid_name(LUsername),
-        %Check rate limiting
+        % Check rate limiting
         ok = ratelimit:ratelimit_name(LUsername),
+        % Captcha
+        ok = recaptcha:verify(IP, Captcha),
         % Logon to LDAP - credential check
         Handle = p3user:check_bind(LUsername, OldPassword),
         DN = p3user:user_safe(Handle, LUsername),
@@ -56,7 +60,6 @@ changepassword(Req, Username, OldPassword, NewPassword) ->
         cowboy_req:reply(403, #{}, <<"Username has been locked out">>, Req);
     throw:connection_failed ->
         cowboy_req:reply(500, #{}, <<"Server Unavailable">>, Req);
-    Error:Reason ->
-        io:fwrite("Debug log: ~p~n", [{Error, Reason}]),
-        cowboy_req:reply(401, #{}, <<"Account Error">>, Req)
+    throw:invalid_captcha ->
+        cowboy_req:reply(500, #{}, <<"Invalid Captcha">>, Req)
     end.

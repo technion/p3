@@ -54,6 +54,7 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
     for (const ele of formkeys) {
       formdata[ele] = e.target[ele].value.trim();
     }
+    formdata.captcha = this.state.captchaKey;
     try {
       validcheck(formdata, e.target.confirmpassword.value.trim());
     } catch (err) {

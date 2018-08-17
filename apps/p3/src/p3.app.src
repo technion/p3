@@ -8,6 +8,7 @@
     stdlib,
     jiffy,
     eldap,
+    hackney,
     cowboy
    ]},
   {env,[]},
