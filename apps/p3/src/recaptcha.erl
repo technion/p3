@@ -8,7 +8,7 @@ verify_live(RemoteIP, Captcha, Key) ->
     <<"?secret=">>/binary, Key/binary,
     <<"&remoteip=">>/binary, RemoteIP/binary,
     <<"&response=">>/binary, Captcha/binary >>,
-    {ok, 200, _Headers, ClientRef} = 
+    {ok, 200, _Headers, ClientRef} =
         hackney:request(get, URL, [], <<>>, []),
     {ok, Body} = hackney:body(ClientRef),
     {Google} = jiffy:decode(Body),
@@ -21,15 +21,14 @@ verify_live(RemoteIP, Captcha, Key) ->
 
 -spec verify(binary(), binary()) -> atom().
 verify(RemoteIP, Captcha) ->
-    io:fwrite("~p ~p ~p ~p ~n", [RemoteIP, byte_size(Captcha), cow_uri:urlencode(Captcha), Captcha]),
     % Safety checks on captcha string
     % TODO: Formally confirm max length of captcha. Largest seen in wild is 292.
     case cow_uri:urlencode(Captcha) =:= Captcha andalso
         byte_size(Captcha) < 512 of
-    true -> 
+    true ->
         ok;
     false ->
-        throw(invalid_captcha) 
+        throw(invalid_captcha)
     end,
     case application:get_env(p3, captcha_key) of
     undefined ->
