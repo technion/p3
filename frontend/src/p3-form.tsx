@@ -94,7 +94,8 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
       margin: "auto"
     };
     const buttonstyles = {
-      marginTop: 32
+      marginTop: "24px",
+      marginBottom: "16px"
     };
 
     const popup = (
