@@ -90,7 +90,7 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
       paddingBottom: "16px",
       paddingLeft: "32px",
       paddingRight: "32px",
-      width: "50%",
+      maxWidth: "1300px",
       margin: "auto"
     };
     const buttonstyles = {
