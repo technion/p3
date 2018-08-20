@@ -1,21 +1,33 @@
 const webpack = require("webpack");
-var BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin
 
 module.exports = {
   context: __dirname,
   mode: "production",
-  entry: "./src/p3-entry.tsx",
+  // Compat must be a separate entry point, to ensure it can execute
+  // even when the browser can't parse the main bundle.
+  entry: {
+    p3: "./src/p3-entry.tsx",
+    compat: "./src/compat.tsx"
+  },
   resolve: {
     extensions: [".tsx", ".js", ".d.ts"],
     alias: { "react-dom": "react-dom-lite" },
   },
-  plugins: [ new BundleAnalyzerPlugin({
-    analyzerMode: "static",
-    reportFilename: "report.html",
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: "static",
+      reportFilename: "report.html",
+    }),
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      template: "index.template.html"
     })
   ],
   output: {
-    filename: "p3.js",
+    filename: "[name].js",
     path: __dirname + "/build",
   },
   module: {
@@ -23,9 +35,9 @@ module.exports = {
 	    {
         test: /\.tsx$/,
         exclude: /node_modules/,
-        use: ["ts-loader"],
+        use: ["ts-loader"]
       },
-    ],
+    ]
   },
-}
+};
 console.log("webpack running:");
