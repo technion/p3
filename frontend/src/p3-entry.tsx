@@ -3,6 +3,8 @@ import * as ReactDOM from "react-dom"; // Aliased to react-dom-lite
 
 import { P3Form } from "./p3-form";
 
+require("./critical.css");
+
 class App extends React.Component<{}, {}> {
   public render() {
     return (

@@ -1,5 +1,9 @@
 const webpack = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
   context: __dirname,
@@ -23,7 +27,17 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "index.template.html"
-    })
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    }),
+    new OptimizeCssAssetsPlugin({
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true
+    }),
+    new HTMLInlineCSSWebpackPlugin(),
   ],
   module: {
     rules: [
@@ -32,6 +46,13 @@ module.exports = {
         exclude: /node_modules/,
         use: ["ts-loader"]
       },
+      {
+        test: /critical\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
+      }
     ]
   }
 };
