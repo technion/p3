@@ -3,7 +3,7 @@ p3
 
 Web interface for remote reset of Active Directory passwords.
 
-Written to address the mess of Microsoft licensing associated with remote users and password write-back.
+Written to address the mess of Microsoft licensing associated with remote users and password write-back, specifically Microsoft's P1 and P2 license.
 
 Security Features
 --------------
@@ -17,7 +17,7 @@ Security Features
 - [x] Whitelist validation of input fields
 - [x] Static code analysis (utilising PEST)
 - [x] Encryption forced in AD communication
-- [ ] API success and fail logged in external database (read only to server)
+- [ ] API success and fail logged in
 
 Nginx Sample
 ------------
@@ -33,3 +33,11 @@ Frontend
 --------
 Frontend is a React based UI.
 The use of Google recaptcha was regrettably required, but no other Javascript or third party resources are utilised. The landing page is entirely self hosted.
+
+Build dev
+
+    npm run build
+
+Build prod
+
+    npm run prod

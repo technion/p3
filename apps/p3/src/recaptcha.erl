@@ -1,5 +1,6 @@
 -module(recaptcha).
 -define(RECAPTHA_API_URL, <<"https://www.google.com/recaptcha/api/siteverify">>).
+-define(TESTKEY, <<"6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe">>).
 -export([verify/2]).
 
 -spec verify_live(binary(), binary(), binary()) -> atom().
@@ -33,7 +34,16 @@ verify(RemoteIP, Captcha) ->
     case application:get_env(p3, captcha_key) of
     undefined ->
         % Recaptcha key not setup - probably testing or dev
-        ok;
+        verify_live(RemoteIP, Captcha, ?TESTKEY);
     {ok, Key} ->
         verify_live(RemoteIP, Captcha, Key)
     end.
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+
+verify_captcha_test() ->
+    application:ensure_all_started(hackney),
+    ?assertEqual(ok, verify(<<"127.0.0.1">>, <<"ANYTHING">>)).
+-endif.
