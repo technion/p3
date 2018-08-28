@@ -20,7 +20,7 @@ verify_live(RemoteIP, Key) ->
     of
     1 ->
         throw(banned_ip);
-    Block ->
+    _Block ->
         % Block or 1 or 3 are considered "acceptable" traffic
         ok
     catch

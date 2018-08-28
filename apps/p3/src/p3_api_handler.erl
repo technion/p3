@@ -37,6 +37,8 @@ changepassword(Req, Username, OldPassword, NewPassword, Captcha) ->
         ok = ratelimit:ratelimit_name(LUsername),
         % Captcha
         ok = recaptcha:verify(IP, Captcha),
+        % IPHub reputation check
+        ok = iphub:verify(IP),
         % Logon to LDAP - credential check
         Handle = p3user:check_bind(LUsername, OldPassword),
         DN = p3user:user_safe(Handle, LUsername),
@@ -60,6 +62,8 @@ changepassword(Req, Username, OldPassword, NewPassword, Captcha) ->
         cowboy_req:reply(403, #{}, <<"Username has been locked out">>, Req);
     throw:connection_failed ->
         cowboy_req:reply(500, #{}, <<"Server Unavailable">>, Req);
+    throw:banned_ip ->
+        cowboy_req:reply(500, #{}, <<"Unsafe IP address">>, Req);
     throw:invalid_captcha ->
         cowboy_req:reply(500, #{}, <<"Invalid Captcha">>, Req)
     end.
