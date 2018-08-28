@@ -29,15 +29,23 @@ Example configuration implements the following:
 - [x] Customises errors for friendly parsing by frontend (no HTML)
 - [x] Standard security headers
 
+Third Party
+-----------
+
+The following API keys are required to utilise this tool:
+Google Recaptcha
+IPHub https://iphub.info/
+
 Configuration
 -------------
 The file private.config should follow this format:
 ```
 [
   {p3, [
-      {captcha_key, <<"secret">},
-      {domain_list, [ "ad.lolware.net", "prodpriv.lolware.net" ]},
-      {server_list, ["127.0.0.1"] }
+      {captcha_key, <<"captcha">>},
+      {domain_list, [ "domain1.lolware.net", "domain2.lolware.net" ]},
+      {server_list, ["127.0.0.1"] },
+      {iphub_key, <<"key">> }
   ]}
 ].
 
