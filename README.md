@@ -15,6 +15,7 @@ Security Features
 - [x] Critical AD accounts blacklisted from access
 - [x] Ban bots (Google Recaptcha)
 - [x] Whitelist validation of input fields
+- [x] IP reputational lookup, banning proxy and Tor endpoints
 - [x] Static code analysis (utilising PEST)
 - [x] Encryption forced in AD communication
 - [ ] API success and fail logged in
@@ -23,7 +24,7 @@ Nginx Sample
 ------------
 Example configuration implements the following:
 - [x] Only single endpoint forwarded to backend
-- [x] Limits access to POSt
+- [x] Limits access to POST
 - [x] Limits access to correct content type
 - [x] Rate limits by IP address
 - [x] Customises errors for friendly parsing by frontend (no HTML)
@@ -33,8 +34,8 @@ Third Party
 -----------
 
 The following API keys are required to utilise this tool:
-Google Recaptcha
-IPHub https://iphub.info/
+- [Google Recaptcha](https://developers.google.com/recaptcha/intro)
+- [IPHub](https://iphub.info/)
 
 Configuration
 -------------
