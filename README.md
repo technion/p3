@@ -29,6 +29,20 @@ Example configuration implements the following:
 - [x] Customises errors for friendly parsing by frontend (no HTML)
 - [x] Standard security headers
 
+Configuration
+-------------
+The file private.config should follow this format:
+```
+[
+  {p3, [
+      {captcha_key, <<"secret">},
+      {domain_list, [ "ad.lolware.net", "prodpriv.lolware.net" ]},
+      {server_list, ["127.0.0.1"] }
+  ]}
+].
+
+```
+
 Frontend
 --------
 Frontend is a React based UI.

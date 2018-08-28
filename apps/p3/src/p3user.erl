@@ -4,13 +4,24 @@
 
 -define(BASE, {base, "DC=ad,DC=lolware,DC=net"}).
 
+-spec(get_servers() -> [string()]).
+get_servers() ->
+    % Extracts configured domain whitelist
+    case application:get_env(p3, server_list) of
+    {ok, Servers} ->
+        Servers;
+    _ -> % Fallback for test and dev
+        ["127.0.0.1"]
+    end.
+
 % Function authenticates a username/password combo by binding
 % to LDAP server. Will return an open handle for further LDAP communication
 -spec(check_bind(string(), binary()) -> eldap:handle()).
 check_bind(Username, Password) ->
+    Servers = get_servers(),
     % The below function can be used as a debugging function passed to eldap:open
     % K = fun(_Level, Format, Arg) -> io:fwrite(Format, Arg) end.
-    Handle = case eldap:open(["127.0.0.1"],
+    Handle = case eldap:open(Servers,
             [{port, 1636}, {ssl, true}, {timeout, 500}]) of
     {ok, H} ->
         H;

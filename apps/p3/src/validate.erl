@@ -1,8 +1,20 @@
 -module(validate).
 -export([valid_name/1]).
 
+-spec(get_domains() -> [string()]).
+get_domains() ->
+    % Extracts configured domain whitelist
+    case application:get_env(p3, domain_list) of
+    {ok, Domains} ->
+        Domains;
+    _ -> % Fallback for test and dev
+        [ "ad.lolware.net", "test.lolware.net" ]
+    end.
+
+
+-spec(valid_domain(string()) -> ok).
 valid_domain(Domain) ->
-    Whitelist = [ "ad.lolware.net", "ds.lolware.net" ],
+    Whitelist = get_domains(),
     case lists:member(Domain, Whitelist) of
     true ->
         ok;
