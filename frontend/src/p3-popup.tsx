@@ -37,8 +37,7 @@ export class P3Popup extends React.Component<PopupData> {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          { (statuscode === "success") ?
-            "Success" : "Error"}
+          {(statuscode === "success") ? "Success" : "Error"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -46,7 +45,7 @@ export class P3Popup extends React.Component<PopupData> {
           </DialogContentText>
         </DialogContent>
        <DialogActions>
-            <Button onClick={ this.reloadpage } color="primary">
+            <Button onClick={this.reloadpage} color="primary">
               Reload
             </Button>
       </DialogActions>

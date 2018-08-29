@@ -10,7 +10,7 @@ class App extends React.Component<{}, {}> {
     return (
       <React.Fragment>
         <P3Form />
-        <div id="g-recaptcha"></div>
+        <div id="g-recaptcha" />
       </React.Fragment>
     );
   }

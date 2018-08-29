@@ -56,32 +56,20 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
     }
     formdata.captcha = this.state.captchaKey;
     try {
-      validcheck(formdata, e.target.confirmpassword.value.trim());
+    validcheck(formdata, e.target.confirmpassword.value.trim())
+      .then((pwned) => {
+        if (pwned) {
+          this.setState({
+            statuscode: "invalid",
+            message: "Password has been listed as compromised"
+          });
+        } else {
+          this.sendForm(formdata);
+        }
+      });
     } catch (err) {
       this.setState({ statuscode: "invalid", message: err.message });
-      return;
     }
-
-    fetch("https://p3.lolware.net/api", {
-      body: JSON.stringify(formdata),
-      headers: new Headers({
-        "Content-Type": "application/json"
-      }),
-      method: "POST"
-    })
-      .then((response) => {
-        return Promise.all([response.text(), response.ok]);
-      })
-      .then(([body, ok]) => {
-        if (!ok) {
-          throw new Error(body);
-        }
-        this.setState({ statuscode: "success", message: body });
-      })
-      .catch((err) => {
-        this.setState({ statuscode: "servererror", message: err.message });
-        console.error(err.message);
-      });
   }
 
   public render() {
@@ -146,5 +134,27 @@ export class P3Form extends React.Component<{}, PopupData & Formstate> {
         </form>
       </Paper>
     );
+  }
+
+  private sendForm(formdata: any) {
+    fetch("https://p3.lolware.net/api", {
+      body: JSON.stringify(formdata),
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      method: "POST"
+    })
+      .then((response) => {
+        return Promise.all([response.text(), response.ok]);
+      })
+      .then(([body, ok]) => {
+        if (!ok) {
+          throw new Error(body);
+        }
+        this.setState({ statuscode: "success", message: body });
+      })
+      .catch((err) => {
+        this.setState({ statuscode: "servererror", message: err.message });
+      });
   }
 }
