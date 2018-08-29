@@ -53,7 +53,7 @@ changepassword(Req, Username, OldPassword, NewPassword, Captcha) ->
     throw:username_invalid_char ->
         cowboy_req:reply(403, #{}, <<"Invalid Parameter">>, Req);
     throw:username_not_valid ->
-        cowboy_req:reply(403, #{}, <<"Invalid Parameter">>, Req);
+        cowboy_req:reply(403, #{}, <<"Invalid Credentials">>, Req);
     throw:invalidCredentials ->
         cowboy_req:reply(403, #{}, <<"Invalid Credentials">>, Req);
     throw:constraintViolation ->
