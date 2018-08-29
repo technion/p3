@@ -18,6 +18,7 @@ Security Features
 - [x] IP reputational lookup, banning proxy and Tor endpoints
 - [x] Static code analysis (utilising PEST)
 - [x] Encryption forced in AD communication
+- [x] Passwords checked with Pwned Passwords API for compromised
 - [ ] API success and fail logged in
 
 Nginx Sample
